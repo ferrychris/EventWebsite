@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const section = getCurrentSection();
     const tabs = sectionTabs[section];
     if (!tabs) return '';
-    
+
     const path = location.pathname.split('/');
     return path.length > 3 ? path[3] : tabs[0].id;
   };
@@ -105,7 +105,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const section = getCurrentSection();
     const searchParams = new URLSearchParams(location.search);
     const venueId = searchParams.get('id');
-    
+
     // Map section to URL path
     const sectionPaths: Record<string, string> = {
       dashboard: 'dashboard',
@@ -130,7 +130,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const tab = getCurrentTab();
 
     // Map routes to components
-    const routeMap = {
+    const routeMap: Record<string, Record<string, React.ComponentType>> = {
       dashboard: {
         overview: Overview,
         'upcoming-events': UpcomingEvents
@@ -178,8 +178,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       }
     };
 
-    const Component = routeMap[section]?.[tab];
-    return Component ? <Component /> : null;
+    // Check if the tab exists in the route map, otherwise return null or fallback component
+    const Component = routeMap[section]?.[tab] || null;
+    if (!Component) {
+      console.error(`No component found for section: ${section}, tab: ${tab}`);
+      return <div>Error: Page not found.</div>;
+    }
+    return <Component />;
   };
 
   const currentSection = getCurrentSection();
