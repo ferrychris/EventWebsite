@@ -57,12 +57,17 @@ export default function LoginForm({ role }: LoginFormProps) {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-600">
-              <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
-              {error}
-            </div>
-          )}
+          {error ? (
+  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-600">
+    <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+    {error}
+  </div>
+) : (
+  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-600">
+    <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+    Success
+  </div>
+)}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
